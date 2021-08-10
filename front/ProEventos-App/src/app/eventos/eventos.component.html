@@ -1,7 +1,53 @@
-<h1>Eventos</h1>
+<h2>Eventos</h2>
+<hr>
 
-<div *ngFor="let ev of eventos">
-    <p><b>Tema:</b> {{ev.tema}}</p>
-    <p><b>Local:</b> {{ev.local}}</p>
-    <hr>
+<div class="form-inline">
+    <div class="form-group mb-2">
+        <label for="" class="mr-2">Filtro:</label>
+        <input type="text" class="form-control mr-2" placeholder="buscar" [(ngModel)]="filterList">
+        <br />
+    </div>
 </div>
+<table class="table table-stripped">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                <button type="button" class="btn btn-outline-light" (click)="collapsedImg = !collapsedImg">
+                    {{collapsedImg ? 'Exibir' : 'Ocultar'}}
+                </button>
+            </th>
+            <th>#</th>
+            <th>Tema</th>
+            <th>Local</th>
+            <th>Data</th>
+            <th>Qntd. Pessoas</th>
+            <th>Lote</th>
+            <th>Opções</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="eventos && eventos.length">
+        <tr *ngFor="let ev of eventosFilter">
+            <td>
+                <img src="/assets/{{ev.imagemUrl}}" [style.width.px]=widthImg [style.margin.px]=marginImg
+                    [collapse]="collapsedImg" [isAnimated]="true">
+            </td>
+            <td>{{ev.eventoId}}</td>
+            <td>{{ev.tema}}</td>
+            <td>{{ev.local}}</td>
+            <td>{{ev.dataEvento}}</td>
+            <td>{{ev.qtdPessoas}}</td>
+            <td>{{ev.lote}}</td>
+            <td>
+                <button type="button" class="btn btn-primary mr-2" [style.width.px]=40 tooltip="Editar" placement="bottom"><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn btn-danger" tooltip="Excluir" placement="bottom"><i class="fas fa-trash"></i></button>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot *ngIf="!eventosFilter.length">
+        <tr>
+            <td colspan="8" class="text-center">
+                <h4>Nenhum evento encontrado.</h4>
+            </td>
+        </tr>
+    </tfoot>
+</table>
